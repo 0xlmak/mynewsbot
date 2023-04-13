@@ -1,0 +1,68 @@
+---
+name: Style
+on: [push, pull_request]
+jobs:
+  pylint:
+    name: pylint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install test requirements
+        run: pip install -r test-requirements.txt
+      - name: Install pylint
+        run: pip install pylint
+      - name: Run pylint
+        run: find . -type f -name "*.py" | xargs pylint -E
+  flake8:
+    name: flake8
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install test requirements
+        run: pip install -r test-requirements.txt
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run flake8
+        run: find . -type f -name "*.py" | xargs flake8
+  black:
+    name: black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install black
+        run: pip install black
+      - name: Run black
+        run: black --check --diff .
+  isort:
+    name: isort
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install isort
+        run: pip install isort
+      - name: Run isort
+        run: isort --ensure-newline-before-comments --diff -v .
